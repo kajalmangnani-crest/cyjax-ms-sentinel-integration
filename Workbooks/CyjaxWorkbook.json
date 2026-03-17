@@ -1,0 +1,867 @@
+{
+    "version": "Notebook/1.0",
+    "items": [
+        {
+            "type": 11,
+            "content": {
+                "version": "LinkItem/1.0",
+                "style": "tabs",
+                "links": [
+                    {
+                        "id": "8525bad9-91d6-46a7-9328-334b4c168950",
+                        "cellValue": "tab_val",
+                        "linkTarget": "parameter",
+                        "linkLabel": "Indicator Overview",
+                        "subTarget": "indicator",
+                        "style": "link"
+                    },
+                    {
+                        "id": "8cccf6d0-5b59-439e-9dd1-483075410832",
+                        "cellValue": "tab_val",
+                        "linkTarget": "parameter",
+                        "linkLabel": "Correlation",
+                        "subTarget": "correlation",
+                        "style": "link"
+                    }
+                ]
+            },
+            "name": "links - 0"
+        },
+        {
+            "type": 12,
+            "content": {
+                "version": "NotebookGroup/1.0",
+                "groupType": "editable",
+                "items": [
+                    {
+                        "type": 9,
+                        "content": {
+                            "version": "KqlParameterItem/1.0",
+                            "parameters": [
+                                {
+                                    "id": "4aade22f-6e5d-4eac-be8c-4a15c744d45f",
+                                    "version": "KqlParameterItem/1.0",
+                                    "name": "TimeRange",
+                                    "label": "Time Range",
+                                    "type": 4,
+                                    "isRequired": true,
+                                    "typeSettings": {
+                                        "selectableValues": [
+                                            {
+                                                "durationMs": 300000
+                                            },
+                                            {
+                                                "durationMs": 900000
+                                            },
+                                            {
+                                                "durationMs": 1800000
+                                            },
+                                            {
+                                                "durationMs": 3600000
+                                            },
+                                            {
+                                                "durationMs": 14400000
+                                            },
+                                            {
+                                                "durationMs": 43200000
+                                            },
+                                            {
+                                                "durationMs": 86400000
+                                            },
+                                            {
+                                                "durationMs": 172800000
+                                            },
+                                            {
+                                                "durationMs": 259200000
+                                            },
+                                            {
+                                                "durationMs": 604800000
+                                            },
+                                            {
+                                                "durationMs": 1209600000
+                                            },
+                                            {
+                                                "durationMs": 2419200000
+                                            },
+                                            {
+                                                "durationMs": 2592000000
+                                            },
+                                            {
+                                                "durationMs": 5184000000
+                                            },
+                                            {
+                                                "durationMs": 7776000000
+                                            }
+                                        ],
+                                        "allowCustom": true
+                                    },
+                                    "timeContext": {
+                                        "durationMs": 86400000
+                                    },
+                                    "value": {
+                                        "durationMs": 86400000
+                                    }
+                                },
+                                {
+                                    "id": "d3d2830a-5abd-41a9-bc58-058408bc2206",
+                                    "version": "KqlParameterItem/1.0",
+                                    "name": "Indicator_Type",
+                                    "label": "Indicator Type",
+                                    "type": 2,
+                                    "isRequired": true,
+                                    "multiSelect": true,
+                                    "quote": "'",
+                                    "delimiter": ",",
+                                    "query": "CyjaxThreatIndicator\n| distinct IndicatorType",
+                                    "typeSettings": {
+                                        "additionalResourceOptions": [
+                                            "value::all"
+                                        ],
+                                        "selectAllValue": "*",
+                                        "showDefault": false
+                                    },
+                                    "timeContext": {
+                                        "durationMs": 86400000
+                                    },
+                                    "timeContextFromParameter": "TimeRange",
+                                    "defaultValue": "value::all",
+                                    "queryType": 0,
+                                    "resourceType": "microsoft.operationalinsights/workspaces",
+                                    "value": [
+                                        "value::all"
+                                    ]
+                                },
+                                {
+                                    "id": "251c49c9-445e-4ad0-a11a-b647d1a1d38c",
+                                    "version": "KqlParameterItem/1.0",
+                                    "name": "Indicator_Value",
+                                    "label": "Indicator Value",
+                                    "type": 1,
+                                    "isRequired": true,
+                                    "query": "print \"*\"",
+                                    "timeContext": {
+                                        "durationMs": 86400000
+                                    },
+                                    "timeContextFromParameter": "TimeRange",
+                                    "queryType": 0,
+                                    "resourceType": "microsoft.operationalinsights/workspaces"
+                                }
+                            ],
+                            "style": "pills",
+                            "queryType": 0,
+                            "resourceType": "microsoft.operationalinsights/workspaces"
+                        },
+                        "name": "parameters - 0"
+                    },
+                    {
+                        "type": 1,
+                        "content": {
+                            "json": "<p style=\"text-align:center; font-size: 14px; font-weight: 600;\">Total Indicator</p><hr>"
+                        },
+                        "customWidth": "20",
+                        "name": "text - 4"
+                    },
+                    {
+                        "type": 1,
+                        "content": {
+                            "json": "<p style=\"text-align:center; font-size: 14px; font-weight: 600;\">Indicator Handling Condition Matrix</p><hr>"
+                        },
+                        "customWidth": "80",
+                        "name": "text - 3"
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "CyjaxThreatIndicator\n| where (\"*\" in ({Indicator_Type:value}) or IndicatorType in ({Indicator_Type:value})) and (('*' == ('{Indicator_Value}') or IndicatorValue contains ('{Indicator_Value}')))\n| distinct CyjaxIOCUUID \n| count\n| extend Count_Title = \"Count\"",
+                            "size": 3,
+                            "showAnalytics": true,
+                            "noDataMessage": "No Data Found",
+                            "timeContextFromParameter": "TimeRange",
+                            "showRefreshButton": true,
+                            "queryType": 0,
+                            "resourceType": "microsoft.operationalinsights/workspaces",
+                            "visualization": "tiles",
+                            "tileSettings": {
+                                "titleContent": {
+                                    "columnMatch": "Count_Title",
+                                    "formatter": 1
+                                },
+                                "leftContent": {
+                                    "columnMatch": "Count",
+                                    "formatter": 12,
+                                    "formatOptions": {
+                                        "min": 0,
+                                        "palette": "blue"
+                                    }
+                                },
+                                "showBorder": false
+                            }
+                        },
+                        "customWidth": "20",
+                        "name": "Total_Indicator",
+                        "styleSettings": {
+                            "showBorder": true
+                        }
+                    },
+                    {
+                        "type": 12,
+                        "content": {
+                            "version": "NotebookGroup/1.0",
+                            "groupType": "editable",
+                            "items": [
+                                {
+                                    "type": 3,
+                                    "content": {
+                                        "version": "KqlItem/1.0",
+                                        "query": "CyjaxThreatIndicator\n| where (\"*\" in ({Indicator_Type:value}) or IndicatorType in ({Indicator_Type:value})) and (('*' == ('{Indicator_Value}') or IndicatorValue contains ('{Indicator_Value}')))\n| where TLPLevel =~ \"white\"\n| distinct CyjaxIOCUUID\n| count\n| extend HandlingCondition = \"White\"\n",
+                                        "size": 3,
+                                        "showAnalytics": true,
+                                        "timeContextFromParameter": "TimeRange",
+                                        "showRefreshButton": true,
+                                        "queryType": 0,
+                                        "resourceType": "microsoft.operationalinsights/workspaces",
+                                        "visualization": "tiles",
+                                        "tileSettings": {
+                                            "titleContent": {
+                                                "columnMatch": "HandlingCondition",
+                                                "formatter": 1
+                                            },
+                                            "leftContent": {
+                                                "columnMatch": "Count",
+                                                "formatter": 12,
+                                                "formatOptions": {
+                                                    "min": -1,
+                                                    "palette": "gray"
+                                                }
+                                            },
+                                            "showBorder": false
+                                        }
+                                    },
+                                    "customWidth": "25",
+                                    "name": "tlp_white",
+                                    "styleSettings": {
+                                        "showBorder": true
+                                    }
+                                },
+                                {
+                                    "type": 3,
+                                    "content": {
+                                        "version": "KqlItem/1.0",
+                                        "query": "CyjaxThreatIndicator\n| where (\"*\" in ({Indicator_Type:value}) or IndicatorType in ({Indicator_Type:value})) and (('*' == ('{Indicator_Value}') or IndicatorValue contains ('{Indicator_Value}')))\n| where TLPLevel =~ \"amber\"\n| distinct CyjaxIOCUUID\n| count\n| extend HandlingCondition = \"Amber\"\n",
+                                        "size": 3,
+                                        "showAnalytics": true,
+                                        "timeContextFromParameter": "TimeRange",
+                                        "showRefreshButton": true,
+                                        "queryType": 0,
+                                        "resourceType": "microsoft.operationalinsights/workspaces",
+                                        "visualization": "tiles",
+                                        "tileSettings": {
+                                            "titleContent": {
+                                                "columnMatch": "HandlingCondition",
+                                                "formatter": 1
+                                            },
+                                            "leftContent": {
+                                                "columnMatch": "Count",
+                                                "formatter": 12,
+                                                "formatOptions": {
+                                                    "min": -1,
+                                                    "palette": "orange"
+                                                }
+                                            },
+                                            "showBorder": false
+                                        }
+                                    },
+                                    "customWidth": "25",
+                                    "name": "tlp_white - Copy",
+                                    "styleSettings": {
+                                        "showBorder": true
+                                    }
+                                },
+                                {
+                                    "type": 3,
+                                    "content": {
+                                        "version": "KqlItem/1.0",
+                                        "query": "CyjaxThreatIndicator\n| where (\"*\" in ({Indicator_Type:value}) or IndicatorType in ({Indicator_Type:value})) and (('*' == ('{Indicator_Value}') or IndicatorValue contains ('{Indicator_Value}')))\n| where TLPLevel =~ \"green\"\n| distinct CyjaxIOCUUID\n| count\n| extend HandlingCondition = \"Green\"\n",
+                                        "size": 3,
+                                        "showAnalytics": true,
+                                        "timeContextFromParameter": "TimeRange",
+                                        "showRefreshButton": true,
+                                        "queryType": 0,
+                                        "resourceType": "microsoft.operationalinsights/workspaces",
+                                        "visualization": "tiles",
+                                        "tileSettings": {
+                                            "titleContent": {
+                                                "columnMatch": "HandlingCondition",
+                                                "formatter": 1
+                                            },
+                                            "leftContent": {
+                                                "columnMatch": "Count",
+                                                "formatter": 12,
+                                                "formatOptions": {
+                                                    "min": -1,
+                                                    "palette": "green"
+                                                }
+                                            },
+                                            "showBorder": false
+                                        }
+                                    },
+                                    "customWidth": "25",
+                                    "name": "tlp_white - Copy - Copy",
+                                    "styleSettings": {
+                                        "showBorder": true
+                                    }
+                                },
+                                {
+                                    "type": 3,
+                                    "content": {
+                                        "version": "KqlItem/1.0",
+                                        "query": "CyjaxThreatIndicator\n| where (\"*\" in ({Indicator_Type:value}) or IndicatorType in ({Indicator_Type:value})) and (('*' == ('{Indicator_Value}') or IndicatorValue contains ('{Indicator_Value}')))\n| where TLPLevel =~ \"red\"\n| distinct CyjaxIOCUUID\n| count\n| extend HandlingCondition = \"Red\"\n",
+                                        "size": 3,
+                                        "showAnalytics": true,
+                                        "timeContextFromParameter": "TimeRange",
+                                        "showRefreshButton": true,
+                                        "queryType": 0,
+                                        "resourceType": "microsoft.operationalinsights/workspaces",
+                                        "visualization": "tiles",
+                                        "tileSettings": {
+                                            "titleContent": {
+                                                "columnMatch": "HandlingCondition",
+                                                "formatter": 1
+                                            },
+                                            "leftContent": {
+                                                "columnMatch": "Count",
+                                                "formatter": 12,
+                                                "formatOptions": {
+                                                    "min": -1,
+                                                    "palette": "redBright"
+                                                }
+                                            },
+                                            "showBorder": false
+                                        }
+                                    },
+                                    "customWidth": "25",
+                                    "name": "tlp_white - Copy - Copy - Copy",
+                                    "styleSettings": {
+                                        "showBorder": true
+                                    }
+                                }
+                            ]
+                        },
+                        "customWidth": "80",
+                        "name": "Indicators_by_handling_condition"
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "CyjaxThreatIndicator\n| where (\"*\" in ({Indicator_Type:value}) or IndicatorType in ({Indicator_Type:value})) and (('*' == ('{Indicator_Value}') or IndicatorValue contains ('{Indicator_Value}')))\n| summarize Count = count(CyjaxIOCUUID) by IndicatorType",
+                            "size": 3,
+                            "showAnalytics": true,
+                            "title": "Indicator Type Distribution",
+                            "noDataMessage": "No Data Found",
+                            "timeContextFromParameter": "TimeRange",
+                            "showRefreshButton": true,
+                            "exportFieldName": "series",
+                            "exportParameterName": "IndicatorType1",
+                            "queryType": 0,
+                            "resourceType": "microsoft.operationalinsights/workspaces",
+                            "visualization": "piechart",
+                            "tileSettings": {
+                                "titleContent": {},
+                                "leftContent": {
+                                    "columnMatch": "Count",
+                                    "formatter": 12,
+                                    "formatOptions": {
+                                        "min": 0,
+                                        "palette": "blue"
+                                    }
+                                },
+                                "showBorder": false
+                            }
+                        },
+                        "customWidth": "50",
+                        "name": "Indicator_type_distribution "
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "CyjaxThreatIndicator\n| where (\"*\" in ({Indicator_Type:value}) or IndicatorType in ({Indicator_Type:value})) and (('*' == ('{Indicator_Value}') or IndicatorValue contains ('{Indicator_Value}')))\n| summarize Count = count(CyjaxIOCUUID) by TLPLevel",
+                            "size": 3,
+                            "showAnalytics": true,
+                            "title": "Handling Condition Breakdown",
+                            "noDataMessage": "No Data Found",
+                            "timeContextFromParameter": "TimeRange",
+                            "showRefreshButton": true,
+                            "exportFieldName": "series",
+                            "exportParameterName": "TLPLevel1",
+                            "queryType": 0,
+                            "resourceType": "microsoft.operationalinsights/workspaces",
+                            "visualization": "piechart",
+                            "tileSettings": {
+                                "titleContent": {},
+                                "leftContent": {
+                                    "columnMatch": "Count",
+                                    "formatter": 12,
+                                    "formatOptions": {
+                                        "min": 0,
+                                        "palette": "blue"
+                                    }
+                                },
+                                "showBorder": false
+                            },
+                            "chartSettings": {
+                                "seriesLabelSettings": [
+                                    {
+                                        "seriesName": "Green",
+                                        "color": "green"
+                                    },
+                                    {
+                                        "seriesName": "Amber",
+                                        "color": "orange"
+                                    },
+                                    {
+                                        "seriesName": "Red",
+                                        "color": "redBright"
+                                    },
+                                    {
+                                        "seriesName": "White",
+                                        "color": "gray"
+                                    }
+                                ]
+                            }
+                        },
+                        "customWidth": "50",
+                        "name": "Indicator_type_distribution  - Copy"
+                    },
+                    {
+                        "type": 1,
+                        "content": {
+                            "json": "_Click on the sections in the above panel **Indicator Type Distribution** to view more information._",
+                            "style": "info"
+                        },
+                        "customWidth": "50",
+                        "name": "text - 14"
+                    },
+                    {
+                        "type": 1,
+                        "content": {
+                            "json": "_Click on the sections in the above panel **Handling Condition Breakdown** to view more information._",
+                            "style": "info"
+                        },
+                        "customWidth": "50",
+                        "name": "text - 14 - Copy"
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "CyjaxThreatIndicator\n| where (('*' == ('{Indicator_Value}') or IndicatorValue contains ('{Indicator_Value}')))\n| where IndicatorType == '{IndicatorType1}'",
+                            "size": 0,
+                            "showAnalytics": true,
+                            "title": "Indicator Details for Type : {IndicatorType1}",
+                            "timeContextFromParameter": "TimeRange",
+                            "showRefreshButton": true,
+                            "showExportToExcel": true,
+                            "queryType": 0,
+                            "resourceType": "microsoft.operationalinsights/workspaces",
+                            "gridSettings": {
+                                "rowLimit": 10000,
+                                "filter": true
+                            }
+                        },
+                        "conditionalVisibility": {
+                            "parameterName": "IndicatorType1",
+                            "comparison": "isNotEqualTo"
+                        },
+                        "name": "query - 16",
+                        "styleSettings": {
+                            "showBorder": true
+                        }
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "CyjaxThreatIndicator\n| where (\"*\" in ({Indicator_Type:value}) or IndicatorType in ({Indicator_Type:value})) and (('*' == ('{Indicator_Value}') or IndicatorValue contains ('{Indicator_Value}')))\n| where TLPLevel == '{TLPLevel1}'",
+                            "size": 0,
+                            "showAnalytics": true,
+                            "title": "Indicator Details for Handling Condition : {TLPLevel1}",
+                            "timeContextFromParameter": "TimeRange",
+                            "showRefreshButton": true,
+                            "showExportToExcel": true,
+                            "queryType": 0,
+                            "resourceType": "microsoft.operationalinsights/workspaces",
+                            "gridSettings": {
+                                "rowLimit": 10000,
+                                "filter": true
+                            }
+                        },
+                        "conditionalVisibility": {
+                            "parameterName": "TLPLevel1",
+                            "comparison": "isNotEqualTo"
+                        },
+                        "name": "query - 16 - Copy",
+                        "styleSettings": {
+                            "showBorder": true
+                        }
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "let interval_in_hrs= datetime_diff('hour', {TimeRange:end}, {TimeRange:start});\nlet interval_in_days= datetime_diff('day', {TimeRange:end}, {TimeRange:start});\nlet bin_duration=case(interval_in_hrs<=24, 1h, interval_in_days<=30, 1d, interval_in_days>=31 and interval_in_days<=90, 7d, 31d);\nCyjaxThreatIndicator\n| where (\"*\" in ({Indicator_Type:value}) or IndicatorType in ({Indicator_Type:value})) and (('*' == ('{Indicator_Value}') or IndicatorValue contains ('{Indicator_Value}')))\n| make-series Count = count() default = 0 on TimeGenerated from {TimeRange:start} to {TimeRange:end} step bin_duration by IndicatorType\n\n",
+                            "size": 0,
+                            "showAnalytics": true,
+                            "title": "Indicator Over Time",
+                            "noDataMessage": "No Data Found",
+                            "timeContextFromParameter": "TimeRange",
+                            "showRefreshButton": true,
+                            "queryType": 0,
+                            "resourceType": "microsoft.operationalinsights/workspaces",
+                            "visualization": "timechart"
+                        },
+                        "name": "Indicator_timeline",
+                        "styleSettings": {
+                            "showBorder": true
+                        }
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "CyjaxThreatIndicator\n| where (\"*\" in ({Indicator_Type:value}) or IndicatorType in ({Indicator_Type:value})) and (('*' == ('{Indicator_Value}') or IndicatorValue contains ('{Indicator_Value}')))\n| project\n    TimeGenerated,\n    CreatedAt,\n    IndicatorType,\n    IndicatorValue,\n    IndicatorName,\n    Description,\n    StixPattern,\n    PatternType,\n    PatternVersion,\n    IndicatorCategories,\n    CyjaxIOCUUID,\n    CyjaxSource,\n    CyjaxTTP,\n    CyjaxIndustryType,\n    CyjaxHandlingCondition,\n    EnrichmentIOCType,\n    EnrichmentIPAddress,\n    EnrichmentCity,\n    EnrichmentCountryName,\n    EnrichmentCountryCode,\n    EnrichmentASNOrg,\n    EnrichmentASNNumber,\n    EnrichmentSightingsCount,\n    EnrichmentSightings,\n    EnrichmentLastSeen,\n    ModifiedAt,\n    ValidFrom,\n    ValidUntil,\n    ObservableKey,\n    ObservableValue,\n    StixConfidence,\n    Confidence,\n    IsActive,\n    IsDeleted,\n    Revoked,\n    TLPLevel,\n    Labels,\n    SourceName,\n    SourceDescription,\n    ReportURL,\n    SourceSystem",
+                            "size": 0,
+                            "showAnalytics": true,
+                            "title": "Indicator Overview with Enrichment Details",
+                            "noDataMessage": "No Data Found",
+                            "timeContextFromParameter": "TimeRange",
+                            "showRefreshButton": true,
+                            "showExportToExcel": true,
+                            "queryType": 0,
+                            "resourceType": "microsoft.operationalinsights/workspaces",
+                            "visualization": "table",
+                            "gridSettings": {
+                                "rowLimit": 10000,
+                                "filter": true
+                            }
+                        },
+                        "name": "Indicator_overview",
+                        "styleSettings": {
+                            "showBorder": true
+                        }
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "CyjaxThreatIndicator\n| where (\"*\" in ({Indicator_Type:value}) or IndicatorType in ({Indicator_Type:value})) and (('*' == ('{Indicator_Value}') or IndicatorValue contains ('{Indicator_Value}')))\n| extend CyjaxTTP = split(CyjaxTTP, \", \")\n| mv-expand CyjaxTTP\n| where isnotempty(CyjaxTTP)\n| summarize Count = count() by tostring(CyjaxTTP)\n| top 10 by Count\n\n",
+                            "size": 3,
+                            "showAnalytics": true,
+                            "title": "Top 10  TTP",
+                            "noDataMessage": "No Data Found",
+                            "timeContextFromParameter": "TimeRange",
+                            "showRefreshButton": true,
+                            "exportFieldName": "series",
+                            "exportParameterName": "CyjaxTTP",
+                            "queryType": 0,
+                            "resourceType": "microsoft.operationalinsights/workspaces",
+                            "visualization": "piechart",
+                            "chartSettings": {
+                                "createOtherGroup": 10
+                            }
+                        },
+                        "customWidth": "33",
+                        "name": "top_ttp"
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "CyjaxThreatIndicator\n| where (\"*\" in ({Indicator_Type:value}) or IndicatorType in ({Indicator_Type:value})) and (('*' == ('{Indicator_Value}') or IndicatorValue contains ('{Indicator_Value}')))\n| where isnotempty(EnrichmentASNOrg) \n| summarize  Count = count() by EnrichmentASNOrg\n| top 10 by Count\n",
+                            "size": 3,
+                            "showAnalytics": true,
+                            "title": "Top 10 ASN",
+                            "noDataMessage": "No Data Found",
+                            "timeContextFromParameter": "TimeRange",
+                            "showRefreshButton": true,
+                            "exportFieldName": "series",
+                            "exportParameterName": "EnrichmentASNOrg",
+                            "queryType": 0,
+                            "resourceType": "microsoft.operationalinsights/workspaces",
+                            "visualization": "piechart",
+                            "chartSettings": {
+                                "createOtherGroup": 10
+                            }
+                        },
+                        "customWidth": "33",
+                        "name": "top_asn"
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "CyjaxThreatIndicator\n| where (\"*\" in ({Indicator_Type:value}) or IndicatorType in ({Indicator_Type:value})) and (('*' == ('{Indicator_Value}') or IndicatorValue contains ('{Indicator_Value}')))\n| extend CyjaxIndustryType = split(CyjaxIndustryType, \", \")\n| project CyjaxIndustryType\n| mv-expand CyjaxIndustryType\n| where isnotempty(CyjaxIndustryType) and CyjaxIndustryType != \"Unknown\"\n| summarize Count = count() by tostring(CyjaxIndustryType)\n| top 10 by Count",
+                            "size": 3,
+                            "showAnalytics": true,
+                            "title": "Industry Breakdown",
+                            "noDataMessage": "No Data Found",
+                            "timeContextFromParameter": "TimeRange",
+                            "showRefreshButton": true,
+                            "exportFieldName": "series",
+                            "exportParameterName": "CyjaxIndustryType",
+                            "queryType": 0,
+                            "resourceType": "microsoft.operationalinsights/workspaces",
+                            "visualization": "piechart",
+                            "chartSettings": {
+                                "createOtherGroup": 10
+                            },
+                            "mapSettings": {
+                                "locInfo": "CountryRegion",
+                                "locInfoColumn": "LocationInfo",
+                                "sizeSettings": "Count",
+                                "sizeAggregation": "Sum",
+                                "legendMetric": "Count",
+                                "legendAggregation": "Sum",
+                                "itemColorSettings": {
+                                    "nodeColorField": "Count",
+                                    "colorAggregation": "Sum",
+                                    "type": "heatmap",
+                                    "heatmapPalette": "greenRed"
+                                }
+                            }
+                        },
+                        "customWidth": "33",
+                        "name": "industry_breakdown"
+                    },
+                    {
+                        "type": 1,
+                        "content": {
+                            "json": "_Click on the sections in the above panels **Top 10 TTP, Top 10 ASN, Industry Breakdown** to view more information._",
+                            "style": "info"
+                        },
+                        "name": "text - 20"
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "CyjaxThreatIndicator\n| where (\"*\" in ({Indicator_Type:value}) or IndicatorType in ({Indicator_Type:value})) and (('*' == ('{Indicator_Value}') or IndicatorValue contains ('{Indicator_Value}')))\n| where CyjaxTTP contains '{CyjaxTTP}'",
+                            "size": 0,
+                            "showAnalytics": true,
+                            "title": "Indicator Details for TTP : {CyjaxTTP}",
+                            "timeContextFromParameter": "TimeRange",
+                            "showRefreshButton": true,
+                            "showExportToExcel": true,
+                            "queryType": 0,
+                            "resourceType": "microsoft.operationalinsights/workspaces",
+                            "gridSettings": {
+                                "rowLimit": 10000,
+                                "filter": true
+                            }
+                        },
+                        "conditionalVisibility": {
+                            "parameterName": "CyjaxTTP",
+                            "comparison": "isNotEqualTo"
+                        },
+                        "name": "query - 21",
+                        "styleSettings": {
+                            "showBorder": true
+                        }
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "CyjaxThreatIndicator\n| where (\"*\" in ({Indicator_Type:value}) or IndicatorType in ({Indicator_Type:value})) and (('*' == ('{Indicator_Value}') or IndicatorValue contains ('{Indicator_Value}')))\n| where EnrichmentASNOrg == '{EnrichmentASNOrg}'",
+                            "size": 0,
+                            "showAnalytics": true,
+                            "title": "Indicator Details for ASN Org : {EnrichmentASNOrg}",
+                            "timeContextFromParameter": "TimeRange",
+                            "showRefreshButton": true,
+                            "showExportToExcel": true,
+                            "queryType": 0,
+                            "resourceType": "microsoft.operationalinsights/workspaces",
+                            "gridSettings": {
+                                "rowLimit": 10000,
+                                "filter": true
+                            }
+                        },
+                        "conditionalVisibility": {
+                            "parameterName": "EnrichmentASNOrg",
+                            "comparison": "isNotEqualTo"
+                        },
+                        "name": "query - 21 - Copy",
+                        "styleSettings": {
+                            "showBorder": true
+                        }
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "CyjaxThreatIndicator\n| where (\"*\" in ({Indicator_Type:value}) or IndicatorType in ({Indicator_Type:value})) and (('*' == ('{Indicator_Value}') or IndicatorValue contains ('{Indicator_Value}')))\n| where CyjaxIndustryType contains '{CyjaxIndustryType}'",
+                            "size": 0,
+                            "showAnalytics": true,
+                            "title": "Indicator Details for Industry : {CyjaxIndustryType}",
+                            "timeContextFromParameter": "TimeRange",
+                            "showRefreshButton": true,
+                            "showExportToExcel": true,
+                            "queryType": 0,
+                            "resourceType": "microsoft.operationalinsights/workspaces",
+                            "gridSettings": {
+                                "rowLimit": 10000,
+                                "filter": true
+                            }
+                        },
+                        "conditionalVisibility": {
+                            "parameterName": "CyjaxIndustryType",
+                            "comparison": "isNotEqualTo"
+                        },
+                        "name": "query_industry_drilldown",
+                        "styleSettings": {
+                            "showBorder": true
+                        }
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "CyjaxThreatIndicator\n| where (\"*\" in ({Indicator_Type:value}) or IndicatorType in ({Indicator_Type:value})) and (('*' == ('{Indicator_Value}') or IndicatorValue contains ('{Indicator_Value}')))\n| where isnotempty(EnrichmentCountryName) \n| summarize Count = count() by EnrichmentCountryName\n| top 10 by Count\n\n",
+                            "size": 0,
+                            "showAnalytics": true,
+                            "title": "Top 10  Country",
+                            "noDataMessage": "No Data Found",
+                            "timeContextFromParameter": "TimeRange",
+                            "showRefreshButton": true,
+                            "exportFieldName": "series",
+                            "exportParameterName": "Country",
+                            "queryType": 0,
+                            "resourceType": "microsoft.operationalinsights/workspaces",
+                            "visualization": "barchart",
+                            "chartSettings": {
+                                "createOtherGroup": 10
+                            },
+                            "mapSettings": {
+                                "locInfo": "CountryRegion",
+                                "locInfoColumn": "EnrichmentCountryName",
+                                "sizeSettings": "Count",
+                                "sizeAggregation": "Sum",
+                                "legendMetric": "Count",
+                                "legendAggregation": "Sum",
+                                "itemColorSettings": {
+                                    "nodeColorField": "Count",
+                                    "colorAggregation": "Sum",
+                                    "type": "heatmap",
+                                    "heatmapPalette": "greenRed"
+                                }
+                            }
+                        },
+                        "customWidth": "50",
+                        "name": "top_countries",
+                        "styleSettings": {
+                            "showBorder": true
+                        }
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "CyjaxThreatIndicator\n| where (\"*\" in ({Indicator_Type:value}) or IndicatorType in ({Indicator_Type:value})) and (('*' == ('{Indicator_Value}') or IndicatorValue contains ('{Indicator_Value}')))\n| where isnotempty(EnrichmentCountryCode) \n| summarize Count = count() by EnrichmentCountryCode\n| project-rename LocationInfo = EnrichmentCountryCode\n| top 10 by Count\n\n",
+                            "size": 0,
+                            "showAnalytics": true,
+                            "title": "Geographic Country Distribution (Top 10)",
+                            "noDataMessage": "No Data Found",
+                            "timeContextFromParameter": "TimeRange",
+                            "showRefreshButton": true,
+                            "queryType": 0,
+                            "resourceType": "microsoft.operationalinsights/workspaces",
+                            "visualization": "map",
+                            "chartSettings": {
+                                "createOtherGroup": 10
+                            },
+                            "mapSettings": {
+                                "locInfo": "CountryRegion",
+                                "locInfoColumn": "LocationInfo",
+                                "sizeSettings": "Count",
+                                "sizeAggregation": "Sum",
+                                "legendMetric": "Count",
+                                "legendAggregation": "Sum",
+                                "itemColorSettings": {
+                                    "nodeColorField": "Count",
+                                    "colorAggregation": "Sum",
+                                    "type": "heatmap",
+                                    "heatmapPalette": "greenRed"
+                                }
+                            }
+                        },
+                        "customWidth": "50",
+                        "name": "top_countries_map",
+                        "styleSettings": {
+                            "showBorder": true
+                        }
+                    },
+                    {
+                        "type": 1,
+                        "content": {
+                            "json": "_Click on the bar in the above panel **Top 10 Country** to view more information._",
+                            "style": "info"
+                        },
+                        "customWidth": "50",
+                        "name": "text - 14 - Copy"
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "CyjaxThreatIndicator\n| where (\"*\" in ({Indicator_Type:value}) or IndicatorType in ({Indicator_Type:value})) and (('*' == ('{Indicator_Value}') or IndicatorValue contains ('{Indicator_Value}')))\n| where EnrichmentCountryName == '{Country}'",
+                            "size": 0,
+                            "showAnalytics": true,
+                            "title": "Indicator Details for Country : {Country}",
+                            "timeContextFromParameter": "TimeRange",
+                            "showRefreshButton": true,
+                            "showExportToExcel": true,
+                            "queryType": 0,
+                            "resourceType": "microsoft.operationalinsights/workspaces",
+                            "gridSettings": {
+                                "rowLimit": 10000,
+                                "filter": true
+                            }
+                        },
+                        "conditionalVisibility": {
+                            "parameterName": "Country",
+                            "comparison": "isNotEqualTo"
+                        },
+                        "name": "query - 16 - Copy - Copy",
+                        "styleSettings": {
+                            "showBorder": true
+                        }
+                    }
+                ]
+            },
+            "conditionalVisibility": {
+                "parameterName": "tab_val",
+                "comparison": "isEqualTo",
+                "value": "indicator"
+            },
+            "name": "indicator_overview"
+        },
+        {
+            "type": 12,
+            "content": {
+                "version": "NotebookGroup/1.0",
+                "groupType": "editable",
+                "items": []
+            },
+            "conditionalVisibility": {
+                "parameterName": "tab_val",
+                "comparison": "isEqualTo",
+                "value": "correlation"
+            },
+            "name": "correlation"
+        }
+    ],
+    "fromTemplateId": "cyjax-ms-sentinel-workbook",
+    "$schema": "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
+}
