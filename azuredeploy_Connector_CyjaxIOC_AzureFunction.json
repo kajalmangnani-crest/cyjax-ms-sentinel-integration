@@ -241,7 +241,7 @@
                         },
                         {
                             "name": "WEBSITE_RUN_FROM_PACKAGE",
-                            "value": "https://github.com/kajalmangnani-crest/cyjax-ms-sentinel-integration/raw/refs/heads/main/CyjaxIOC.zip"
+                            "value": "https://aka.ms/sentinel-CyjaxIOC-functionapp"
                         },
                         {
                             "name": "CYJAX_BASE_URL",
